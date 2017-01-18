@@ -1,0 +1,17 @@
+/*Home page media css----*/
+
+@media only screen and (max-width: 1199px) {
+    .footer_wrapper{ background-image: none; text-align: center;}
+
+}
+
+
+@media only screen and (max-width:600px) {
+    .loginbox_formwrapper {  width: 90%;}
+
+    .rememberline{ width: 120px; float: none; margin: 0 auto;}
+
+
+    .login_bottomwrapper2 #login_box_iforget{ float: none!important; text-align: center!important; margin: 0 auto!important; padding-top: 5px; display:block; text-align: center; width: 150px; }
+
+}
