@@ -48,7 +48,7 @@
         <img src="system/themes/nexmedicallogin/images/nex_logo.png" class="nex_logo">
 
 		<h3 id="login_welcome_msg" >Welcome to <span>[[site_name]]</span></h3>
-		[[relay_msg]]
+		<div class="relay_msg">[[relay_msg]]</div>
 
 
 		<div class="loginbox_formwrapper">
@@ -58,8 +58,8 @@
 		<form name="frmLogin" method="post" action="[[relay_url]]">
 			<div class="row">
 				<div class="col-xs-12 form-group" id="username_contain">
-							<strong>User Name</strong>
-					<input type="text" name="username" id="username" class="login_box_input" maxlength="255" value="[[username]]" placeholder="Username"/>								
+							<strong>User Name / Email</strong>
+					<input type="text" name="username" id="username" class="login_box_input" maxlength="255" value="[[username]]" placeholder="User Name / Email"/>
 				</div>
 				<div class="col-xs-12 form-group" id="password_contain">
                     <strong>Password</strong>

@@ -14,4 +14,6 @@
 
     .login_bottomwrapper2 #login_box_iforget{ float: none!important; text-align: center!important; margin: 0 auto!important; padding-top: 5px; display:block; text-align: center; width: 150px; }
 
+    .login_box_wrapper{    margin-top: 60px!important; margin-bottom: 60px!important; }
+
 }
