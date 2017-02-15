@@ -83,11 +83,18 @@ if(util_is_POST()) {
         $prevuser = $AI->user->userID;
         $prevusername = $AI->user->username;
         //save lead
-        //$landing_page->save_lead();
+        $landing_page->save_lead();
         //save user as Representatives
         $landing_page->save_user('Approved Reps');
         $AI->user->login($_POST['username'],$_POST['password']);
         //$AI->user->auto_login($_POST['username']);
+
+
+        require_once( ai_cascadepath('includes/plugins/tags/class.tags.php') );
+        $new_tag_list=['New Pre-Qualified Rep'];
+        $tags = new C_tags('lead_management',db_lookup_scalar("select lead_id from users where userid = ". $AI->user->userID));
+        //$old_tag_list = $tags->get_current_tags();
+        $tags->add($new_tag_list);
 
         db_query("UPDATE users SET parent = 0 WHERE userId = " . (int)$AI->user->userID);
         $te_user_manager->delete($prevuser);
@@ -98,7 +105,7 @@ if(util_is_POST()) {
 
         /****************Add mail Table[start]*********************/
         $te_user_mails = new C_te_user_mails();
-        $te_user_mails->insert_data(array('userID'=>@$landing_page->session['created_user'],'email'=>$_POST['username'].'@nexmedsolutions.com','password'=>$_POST['password']));
+        $te_user_mails->insert_data(array('userID'=>@$landing_page->session['created_user'],'email'=>strtolower($_POST['username']).'@nexmedsolutions.com','password'=>$_POST['password']));
 
         /****************Add mail Table[end]********************88*/
 
@@ -132,12 +139,12 @@ if(util_is_POST()) {
         $xmlapi->set_port( 2083 );
         $xmlapi->password_auth($cpanelusr,$cpanelpass);
         $xmlapi->set_debug(0); //output actions in the error log 1 for true and 0 false
-        $result = $xmlapi->api1_query($cpanelusr, 'Email', 'addpop', array($_POST['username'].'@nexmedsolutions.com',$_POST['password'],'unlimited','nexmedsolutions.com'));
+        $result = $xmlapi->api1_query($cpanelusr, 'Email', 'addpop', array(strtolower($_POST['username']).'@nexmedsolutions.com',$_POST['password'],'unlimited','nexmedsolutions.com'));
         // $x=imap_mail('debasiskar007@gmail.com', 'test 23', 'test body', $_POST['username'].'@nexmedsolutions.com');
         //var_dump($x);
         //exit;
 
-        $res = $xmlapi->api1_query($cpanelusr, 'Email', 'delpop', array($prevusername.'@nexmedsolutions.com','nexmedsolutions.com'));
+        $res = $xmlapi->api1_query($cpanelusr, 'Email', 'delpop', array(strtolower($prevusername).'@nexmedsolutions.com','nexmedsolutions.com'));
 
         //$landing_page->goto_next_step();
 

@@ -49,10 +49,12 @@
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="javascript:void(0)">Home</a></li>
-                            <li><a href="javascript:void(0)">NMS-100</a></li>
+                            <li><a href="/home1">Home</a></li>
+                            <li><a href="/aboutus1">About us</a></li>
+                            <li><a href="/nms100-1">NMS-100</a></li>
+                            <li><a href="/videos1">Videos</a></li>
                             <li><a href="javascript:void(0)">RESOURCES</a></li>
-                            <li><a href="javascript:void(0)">Contact</a></li>
+                            <li><a href="/contact1">Contact</a></li>
 
                         </ul>
 

@@ -21,9 +21,9 @@ $keyword = '';
 
 
 $page = 1;
-$start = 1;
-$perpage = 3;
-$end = 3;
+$perpage = 10;
+$start = (($page-1)*$perpage)+1;
+$end = ($page*$perpage);
 
 if(isset($_GET['page']) && intval($_GET['page'])){
     $page = intval($_GET['page']);
@@ -88,7 +88,7 @@ try{
 
 
 $imap->selectFolder('INBOX.Sent');
-$emaillist = $imap->getMessages(true,$perpage,($start-1));
+$emaillist = $imap->getMessages(true,$perpage,($page-1));
 $overallMessages = $imap->countMessages();
 $countMsg = $imap->countMessages();
 
@@ -97,8 +97,6 @@ $stream=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX.Sent", $usernam
 
 
 if(isset($_GET['mode'])){
-    $nextpageurl = 'imapsentbox?mode='.$_GET['mode'].'&page='.($page+1);
-    $prevpageurl = 'imapsentbox?mode='.$_GET['mode'].'&page='.($page-1);
 
 
     if($_GET['mode'] == 'delete'){
@@ -118,8 +116,11 @@ if(isset($_GET['mode'])){
 
 
 
-        if(!empty($_POST['keyword'])){
-            $keyword = $_POST['keyword'];
+        if(!empty($_GET['keyword'])){
+            $keyword = $_GET['keyword'];
+
+            $nextpageurl = 'imapsentbox?mode='.$_GET['mode'].'&keyword='.$keyword.'&page='.($page+1);
+            $prevpageurl = 'imapsentbox?mode='.$_GET['mode'].'&keyword='.$keyword.'&page='.($page-1);
 
             $searcharr = array();
 
@@ -133,14 +134,21 @@ if(isset($_GET['mode'])){
             }
 
             $searchmail = array_unique($searcharr);
+            arsort($searchmail);
 
             $countMsg = count($searchmail);
 
+            $searchmailnew = array();
             $emaillist = array();
 
             if(count($searchmail)){
                 foreach ($searchmail as $val){
-                    $emaillist[] = $imap->getMessage($val);
+                    $searchmailnew[] = $val;
+                }
+
+                $end1 = ($end>$countMsg)?$countMsg:$end;
+                for($i=($start-1);$i<$end1;$i++){
+                    $emaillist[] = $imap->getMessage($searchmail[$i]);
                 }
             }
 
@@ -236,7 +244,8 @@ $AI->skin->css('includes/plugins/imap/style.css');
 
             <div class="mailinboxheader_form">
 
-                <form id="searchform" method="post" action="<?php echo $cururl;?>?mode=search">
+                <form id="searchform" method="get" action="<?php echo $cururl;?>">
+                    <input type="hidden" name="mode" value="search">
                     <input id="skey" type="text" name="keyword" class="form-control2 input-sm" placeholder="Search Mail" value="<?php echo $keyword;?>">
                     <span class="glyphicon glyphicon-search form-control-feedback2"></span>
 
@@ -265,10 +274,12 @@ $AI->skin->css('includes/plugins/imap/style.css');
                             </div>
                             <div class="box-body no-padding collapse navbar-collapse" id="navbar-collapse-1">
                                 <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="imapcreate"><span class="glyphicon glyphicon-pencil"></span>Compose</span></a></li>
                                     <li><a href="/~nexmed/imapinbox"><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="label label-green pull-right"><?php echo count($emails); ?></span></a></li>
-                                    <li><a href="/~nexmed/imapdrafts"><span class="glyphicon glyphicon-pencil"></span> Drafts<span class="label label-red pull-right"><?php echo $draftscount; ?></span></a></li>
+                                    <li><a href="/~nexmed/imapdrafts"><span class="glyphicon glyphicon-folder-open"></span> Drafts<span class="label label-red pull-right"><?php echo $draftscount; ?></span></a></li>
                                     <li class="activemail"><a href="/~nexmed/imapsentbox"><span class="glyphicon glyphicon-envelope"></span> Sent Mail <span class="label label-red pull-right"><?php echo $overallMessages; ?></span></a></li>
                                     <li><a href="/~nexmed/imaptrash"><span class="glyphicon glyphicon-trash"></span> Trash<span class="label label-red pull-right"><?php echo $trashcount; ?></span></a></li>
+                                    <li><a href="set-signature"><span class="glyphicon glyphicon-cog"></span> Settings</span></a></li>
 
                                 </ul>
                             </div>
@@ -305,13 +316,13 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                     <!-- Check all button -->
                                     <!--<button type="button" class="btn btn-default btn-sm btninputtype"><input type="checkbox"><span class="glyphicon glyphicon-vector-path-square"></span>
                                     </button>-->
-                                    <a type="button" class="btn btn-default btn-sm btnwritemail" href="imapcreate"><span class="glyphicon glyphicon-plus"></span> Compose</a>
+                                    <!--<a type="button" class="btn btn-default btn-sm btnwritemail" href="imapcreate"><span class="glyphicon glyphicon-plus"></span> Compose</a>-->
 
                                     <div class="main_btncon">
-                                        <span><?php echo $start;?>-<?php echo $end;?> of <?php echo $countMsg;?></span>
+                                        <span><?php echo ($countMsg==0)?$countMsg:$start;?>-<?php echo ($end>$countMsg)?$countMsg:$end;?> of <?php echo $countMsg;?></span>
 
                                         <button type="button" class="btn" <?php echo ($page==1)?'disabled="disabled"':'';?> onclick="javascript:window.location.href='<?php echo $prevpageurl;?>'">&#8249;</button>
-                                        <button type="button" class="btn" <?php echo ($page==$totalpage)?'disabled="disabled"':'';?> onclick="javascript:window.location.href='<?php echo $nextpageurl;?>'">&#8250;</button>
+                                        <button type="button" class="btn" <?php echo ($page==$totalpage || $countMsg==0)?'disabled="disabled"':'';?> onclick="javascript:window.location.href='<?php echo $nextpageurl;?>'">&#8250;</button>
 
                                     </div>
 
@@ -344,7 +355,8 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                         <?php
                                         foreach ($emaillist as $key=>$email) {
 
-                                        if(@$_GET['mode'] != 'search' || in_array($email['id'],$searchmail)){
+
+                                        //if(@$_GET['mode'] != 'search' || in_array($email['id'],$searchmail)){
 
                                             $isAttach = 0;
 
@@ -381,13 +393,15 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                                 $unreadcls = 'unreadmail';
                                             }
 
+                                            $emailto = implode(',',$email['to']);
+
                                             ?>
 
                                             <tr  style="cursor: pointer;" class="<?php echo $unreadcls;?>">
                                                 <td><input type="checkbox" class="mailchk" value="<?php echo $email['id'] ; ?>"></td>
                                                 <td class="mailbox-star"><!--<a href="javascript:void(0);"><span class="glyphicon glyphicon-star text-yellow"></span></a>-->
                                                 </td>
-                                                <td class="mailbox-name" onclick="godetails('<?php echo $email['id'] ; ?>')"><b><?php echo $email['to'][0] ; ?></b>
+                                                <td class="mailbox-name" onclick="godetails('<?php echo $email['id'] ; ?>')" style="text-align: left;"><strong style="height: 25px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 200px; display: block;"><?php echo strip_tags($emailto); ?></strong>
                                                 </td>
                                                 <td class="mailbox-subject" onclick="godetails('<?php echo $email['id'] ; ?>')" style="text-align: left;">
                                                     <div style="height: 25px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 580px;"><strong><?php echo $email['subject'] ; ?></strong>  <?php echo $emailbody; ?></div>
@@ -396,7 +410,7 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                                 <td class="mailbox-date" onclick="godetails('<?php echo $email['id'] ; ?>')"><?php echo $datestring; ?></td>
                                             </tr>
                                             <?php
-                                        }}
+                                        }
 
                                         ?>
 

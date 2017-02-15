@@ -18,27 +18,45 @@ use SSilence\ImapClient\ImapClientException;
 use SSilence\ImapClient\ImapConnect;
 use SSilence\ImapClient\ImapClient as Imap;
 
+
 $searchmail = array();
 $keyword = '';
 
 global $AI;
 
 $page = 1;
-$start = 1;
-$perpage = 2;
-$end = 2;
+$perpage = 10;
+$start = (($page-1)*$perpage)+1;
+$end = ($page*$perpage);
+
+
+if(isset($_GET['page']) && intval($_GET['page'])){
+    $page = intval($_GET['page']);
+    $start = (($page-1)*$perpage)+1;
+    $end = ($page*$perpage);
+}
+
+$nextpageurl = 'imapinbox?page='.($page+1);
+$prevpageurl = 'imapinbox?page='.($page-1);
 
 
 $userid = $AI->user->userID;
 $maildata = array('email'=>'dev007@nexmedsolutions.com','password'=>'P@ss0987');
 
 $data = $AI->db->GetAll("SELECT * FROM user_mails WHERE userID = " . (int) $userid);
-
+$pass = 'P@ss0987';
 if(isset($data[0])){
     $password = base64_decode(base64_decode($data[0]['password']));
 
     $maildata =  array('email'=>$data[0]['email'],'password'=>$password);
+}else{
+    $maildata = array('email'=>strtolower($AI->user->username).'@nexmedsolutions.com','password'=>$pass);
+
+
+    db_query( "INSERT INTO `user_mails` ( `userID`, `email`, `password`) VALUES ( ".$AI->user->userID.", '".strtolower($AI->user->username)."@nexmedsolutions.com', '".base64_encode(base64_encode($pass))."')");
+
 }
+
 
 $cururl= 'imapinbox';
 
@@ -73,6 +91,9 @@ try{
     */
 
 }catch (ImapClientException $error){
+
+    util_redirect( 'user-mail-manager?te_class=user_mails&te_mode=addimapmail&redirect=imapinbox&te_key='.$userid );
+
     echo $error->getMessage().PHP_EOL;
     die();
 }
@@ -81,9 +102,8 @@ $imap->selectFolder('INBOX');
 
 $overallMessages444 = $imap->countMessages();
 $unreadMessages = $imap->countUnreadMessages();
-$emails = $imap->getMessages();
-$countMsg = count($emails);
-//$emails = $imap->getMessages(true,$perpage,($start-1));
+$countMsg = $imap->countMessages();
+$emaillist = $imap->getMessages(true,$perpage,($page-1));
 
 
 if(isset($_GET['mode'])){
@@ -104,9 +124,12 @@ if(isset($_GET['mode'])){
         }
         util_redirect($cururl);
     }else if($_GET['mode'] == 'search'){
-        if(!empty($_POST['keyword'])){
-            $keyword = $_POST['keyword'];
-            /*$stream=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX", $username, $password);
+        $stream=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX", $username, $password);
+        if(!empty($_GET['keyword'])){
+            $keyword = $_GET['keyword'];
+
+            $nextpageurl = 'imapinbox?mode='.$_GET['mode'].'&keyword='.$keyword.'&page='.($page+1);
+            $prevpageurl = 'imapinbox?mode='.$_GET['mode'].'&keyword='.$keyword.'&page='.($page-1);
 
             $searcharr = array();
 
@@ -119,11 +142,27 @@ if(isset($_GET['mode'])){
                 }
             }
 
-            $searchmail = array_unique($searcharr);*/
-            $emails = $imap->getMessagesByCriteria('SUBJECT "'.$keyword.'" FROM "'.$keyword.'"');
-            $countMsg = count($emails);
+            $searchmail = array_unique($searcharr);
 
-           $emails = $imap->getMessagesByCriteria('SUBJECT "'.$keyword.'" BCC "'.$keyword.'" BODY "'.$keyword.'" CC "'.$keyword.'" FROM "'.$keyword.'" TEXT "'.$keyword.'" TO "'.$keyword.'"',$perpage,($start-1));
+            arsort($searchmail);
+
+            $countMsg = count($searchmail);
+
+            $searchmailnew = array();
+            $emaillist = array();
+
+            if(count($searchmail)){
+                foreach ($searchmail as $val){
+                    $searchmailnew[] = $val;
+                }
+
+                $end1 = ($end>$countMsg)?$countMsg:$end;
+                for($i=($start-1);$i<$end1;$i++){
+                    $emaillist[] = $imap->getMessage($searchmailnew[$i]);
+                }
+            }
+
+
 
         }else{
             util_redirect($cururl);
@@ -158,6 +197,20 @@ $draftscount = $imap->countMessages();
 
 $stream=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX", $username, $password);
 
+$totalpage = $countMsg/$perpage;
+
+if($totalpage > intval($totalpage)){
+    $totalpage = intval($totalpage)+1;
+}
+
+if(isset($_GET['page'])){
+    if(intval($_GET['page']) > intval($totalpage)){
+        util_redirect($cururl);
+    }
+    if(intval($_GET['page']) == 0){
+        util_redirect($cururl);
+    }
+}
 
 global $AI;
 $AI->skin->css('includes/plugins/imap/style.css');
@@ -213,8 +266,9 @@ $AI->skin->css('includes/plugins/imap/style.css');
 
             <div class="maillogodiv"></div>
             <div class="mailinboxheader_form">
-            <form id="searchform" method="post" action="<?php /*echo $cururl;*/?>?mode=search">
-                <input id="skey" type="text" name="keyword" class="form-control2 input-sm" placeholder="Search Mail" value="<?php /*echo $keyword;*/?>">
+            <form id="searchform" method="get" action="<?php echo $cururl;?>">
+                <input type="hidden" name="mode" value="search">
+                <input id="skey" type="text" name="keyword" class="form-control2 input-sm" placeholder="Search Mail" value="<?php echo $keyword;?>">
                 <span class="glyphicon glyphicon-search form-control-feedback2"></span>
 
                 <div class="clearfix"></div>
@@ -242,10 +296,12 @@ $AI->skin->css('includes/plugins/imap/style.css');
                             </div>
                             <div class="box-body no-padding collapse navbar-collapse" id="navbar-collapse-1">
                                 <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="imapcreate"><span class="glyphicon glyphicon-pencil"></span>Compose</span></a></li>
                                     <li class="activemail"><a href="/~nexmed/imapinbox"><span class="glyphicon glyphicon-inbox"></span> Inbox <span class="label label-green pull-right"><?php echo $overallMessages444; ?></span></a></li>
-                                    <li><a href="/~nexmed/imapdrafts"><span class="glyphicon glyphicon-pencil"></span> Drafts<span class="label label-red pull-right"><?php echo $draftscount; ?></span></a></li>
+                                    <li><a href="/~nexmed/imapdrafts"><span class="glyphicon glyphicon-folder-open"></span> Drafts<span class="label label-red pull-right"><?php echo $draftscount; ?></span></a></li>
                                     <li><a href="/~nexmed/imapsentbox"><span class="glyphicon glyphicon-envelope"></span> Sent Mail <span class="label label-red pull-right"><?php echo $overallMessages; ?></span></a></li>
                                     <li><a href="/~nexmed/imaptrash"><span class="glyphicon glyphicon-trash"></span> Trash<span class="label label-red pull-right"><?php echo $trashcount; ?></span></a></li>
+                                    <li><a href="set-signature"><span class="glyphicon glyphicon-cog"></span> Settings</span></a></li>
                                 </ul>
                             </div>
                             <!-- /.box-body -->
@@ -283,13 +339,13 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                     <!-- Check all button -->
                                     <!--<button type="button" class="btn btn-default btn-sm btninputtype"><input type="checkbox"><span class="glyphicon glyphicon-vector-path-square"></span>
                                     </button>-->
-                                    <a type="button" class="btn btn-default btn-sm btnwritemail" href="imapcreate"><span class="glyphicon glyphicon-plus"></span> Compose</a>
+                                    <!--<a type="button" class="btn btn-default btn-sm btnwritemail" href="imapcreate"><span class="glyphicon glyphicon-plus"></span> Compose</a>-->
 
                                     <div class="main_btncon">
-                                        <span><?php echo $start;?>-<?php echo $end;?> of <?php echo $countMsg;?></span>
+                                        <span><?php echo ($countMsg==0)?$countMsg:$start;?>-<?php echo ($end>$countMsg)?$countMsg:$end;?> of <?php echo $countMsg;?></span>
 
-                                        <button type="button" class="btn" disabled="disabled" onclick="gotopage('prev')">&#8249;</button>
-                                        <button type="button" class="btn" onclick="gotopage('next')">&#8250;</button>
+                                        <button type="button" class="btn" <?php echo ($page==1)?'disabled="disabled"':'';?> onclick="javascript:window.location.href='<?php echo $prevpageurl;?>'">&#8249;</button>
+                                        <button type="button" class="btn" <?php echo ($page==$totalpage || $countMsg==0)?'disabled="disabled"':'';?>  onclick="javascript:window.location.href='<?php echo $nextpageurl;?>'">&#8250;</button>
 
                                     </div>
 
@@ -320,8 +376,7 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                     <table class="table table-hover table-striped">
                                         <tbody>
                                         <?php
-
-                                        foreach ($emails as $key=>$email) {
+                                        foreach ($emaillist as $key=>$email) {
 
                                             //if(@$_GET['mode'] != 'search' || in_array($email['id'],$searchmail)){
 
@@ -352,10 +407,12 @@ $AI->skin->css('includes/plugins/imap/style.css');
                                                     $datestring = date('h:i a',$udate);
                                                 }
 
-                                                $unreadcls = 'unreadmail';
+                                                $unreadcls = '';
                                                 if($email['unread']){
-                                                    $unreadcls = '';
+                                                    $unreadcls = 'unreadmail';
                                                 }
+
+
 
                                                 ?>
 

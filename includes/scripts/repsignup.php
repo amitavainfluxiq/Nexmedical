@@ -81,7 +81,8 @@ if(util_is_POST()) {
         //exit;
 
         require_once( ai_cascadepath('includes/plugins/tags/class.tags.php') );
-        $new_tag_list=['New Pre-Qualified Rep'];
+        //$new_tag_list=['New Pre-Qualified Rep'];
+        $new_tag_list=['Temp Pre-Qualified Rep'];
         $tags = new C_tags('lead_management',db_lookup_scalar("select lead_id from users where userid = ". $AI->user->userID));
         //$old_tag_list = $tags->get_current_tags();
         $tags->add($new_tag_list);
@@ -258,7 +259,7 @@ $landing_page->refill_form();
         <h2><span>NEX Medical Solutions</span> Sales Rep Registration</h2>
   <!--<h3><span>Welcome!</span> This is the first step to become a Rep for NEX Medical Solutions! We are happy you have joined our team and will help us accomplish our mission of providing only the best-quality products and services to the medical industry. We are here for you every step of the way and have an excellent Rep support system to help you succeed! </h3>-->
 
-        <h3>Be part of the team that provides the healthcare community with cutting-edge technology and state-of-the-art solutions. We are committed to our goal of improving healthcare solutions across the nation and we need you. Sign in now and let’s get.</h3>
+        <h3>Be part of the team that provides the healthcare community with cutting-edge technology and state-of-the-art solutions. We are committed to our goal of improving healthcare solutions across the nation and we need you. Sign up now and let’s get started.</h3>
 
     </div>
 

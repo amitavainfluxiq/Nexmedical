@@ -27,8 +27,8 @@
 
     <div class=" welcome_page_banner2box">
         <div class=" welcome_page_banner2box_text">
-    <h2>WE MAKE IT BETTER!</h2>
-    <h3>Better Healthcare – Better Efficiency – Better Profits</h3>
+    <h2><!--WE MAKE IT BETTER!--> IMPROVING HEALTH CARE SOLUTIONS</h2>
+    <h3><!--Better Healthcare – Better Efficiency – Better Profits--> Improving Patient Care - Improving Practice Efficiency - Improving Practice Revenue</h3>
 
    <h4>
        <label>
@@ -48,8 +48,8 @@
 
 
 <div class="container-fluid welcome_page_banner3">
-    <h2>The Best Tech in the Business</h2>
-    <h3> We are providing exciting new technology in the back-end of our professional Representative System to help you perform better. Now you can track your all information about your sales from the beginning of the sales cycle right to the end. This means you are better organized, more efficient, and can increase your revenue. <!--We won’t let the lack of tech hold you back. We have the best technology in the business to help you work effectively and more profitably. --> </h3>
+    <h2><!--The Best Tech in the Business-->THIS SECTION WILL BE ACCESSIBLE ONCE YOU HAVE COMPLETED YOUR SALES REP INTEGRATION PROCESS </h2>
+    <h3> We are providing exciting new technology in the back-end of our professional Representative System to help you perform better. Now you can track your all information about your sales from the <br>beginning of the sales cycle right to the end. This means you are better organized, more efficient, and can increase your revenue. <!--We won’t let the lack of tech hold you back. We have the best technology in the business to help you work effectively and more profitably. --> </h3>
 
 </div>
 
@@ -58,8 +58,9 @@
     <div class="wellcome_block_div">
         <div class="wellcome_block_div_wrapper">
 
-            <img src="system/themes/nexmedicalbackend/images/welcome_icon1.png">
-             <h2>Doctor Tracking</h2>
+            <!--    <img src="system/themes/nexmedicalbackend/images/welcome_icon1.png">-->
+            <img src="system/themes/nexmedicalbackend/images/welcome_icon3.png">
+            <h2><!--Doctor Tracking-->Manage Sales Folders</h2>
             <h3> You can list your doctors all in one place to keep better track of them and organize the information you have about them.
             </h3>
 
@@ -69,9 +70,25 @@
     <div class="wellcome_block_div">
         <div class="wellcome_block_div_wrapper">
 
+           <!-- <img src="system/themes/nexmedicalbackend/images/welcome_icon2.png">-->
+            <img src="system/themes/nexmedicalbackend/images/welcome_icon1.png">
+             <h2><!--Sale-Cycle Disclosure-->Access Doctor Tracking</h2>
+            <h3> <!--Receive quick and easy-to-read reports about the current sale stage of the doctors you have in your network.-->Review a report that shows you right where in the cycle
+                all of your doctors are from initial discussion to enrollment.
+
+            </h3>
+
+        </div>
+
+    </div>
+    <div class="wellcome_block_div">
+        <div class="wellcome_block_div_wrapper">
+
+           <!-- <img src="system/themes/nexmedicalbackend/images/welcome_icon3.png">-->
             <img src="system/themes/nexmedicalbackend/images/welcome_icon2.png">
-             <h2>Sale-Cycle Disclosure</h2>
-            <h3> Receive quick and easy-to-read reports about the current sale stage of the doctors you have in your network.
+             <h2><!--Digital Back-ups-->Document library</h2>
+            <h3> <!--You won’t ever have to worry about losing your priceless data. All your information is backed up automatically.-->
+                Access important documents and other medias to assist you in the doctor sales and onboarding process.
             </h3>
 
         </div>
@@ -80,9 +97,12 @@
     <div class="wellcome_block_div">
         <div class="wellcome_block_div_wrapper">
 
-            <img src="system/themes/nexmedicalbackend/images/welcome_icon3.png">
-             <h2>Digital Back-ups</h2>
-            <h3> You won’t ever have to worry about losing your priceless data. All your information is backed up automatically.
+            <!--<img src="system/themes/nexmedicalbackend/images/welcome_icon4.png">-->
+            <img src="system/themes/nexmedicalbackend/images/new_welicon.png">
+             <h2><!--Real-time-->Commission Reporting</h2>
+            <h3> <!--You need real-time information to more capably perform. Our tech features actions and updates as it happens so you’re always prepared.-->
+                Commissions are posted as they are received by the
+                company. Please review and access earnings here.
             </h3>
 
         </div>
@@ -91,20 +111,13 @@
     <div class="wellcome_block_div">
         <div class="wellcome_block_div_wrapper">
 
-            <img src="system/themes/nexmedicalbackend/images/welcome_icon4.png">
-             <h2>Real-time</h2>
-            <h3> You need real-time information to more capably perform. Our tech features actions and updates as it happens so you’re always prepared.
-            </h3>
+           <!-- <img src="system/themes/nexmedicalbackend/images/welcome_icon5.png">-->
+            <img src="system/themes/nexmedicalbackend/images/new_welicon2.png">
+             <h2><!--Alerts-->Access Appointment Calendar</h2>
+            <h3> <!--Don’t ever miss a meeting or a chance at a sale. You’ll be able to stay on top of your sales with alerts.-->
+                Manage appointment times and schedule on-boarding
+                calls for your doctors through the NexMed calendar.
 
-        </div>
-
-    </div>
-    <div class="wellcome_block_div">
-        <div class="wellcome_block_div_wrapper">
-
-            <img src="system/themes/nexmedicalbackend/images/welcome_icon5.png">
-             <h2>Alerts</h2>
-            <h3> Don’t ever miss a meeting or a chance at a sale. You’ll be able to stay on top of your sales with alerts.
             </h3>
 
         </div>

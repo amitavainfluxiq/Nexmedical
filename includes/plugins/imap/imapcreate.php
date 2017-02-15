@@ -10,6 +10,7 @@ require_once( ai_cascadepath('includes/plugins/imap/imap.php') );
 require_once( ai_cascadepath('includes/plugins/system_emails/class.system_emails.php') );
 require_once( ai_cascadepath('includes/core/classes/email.php') );
 require_once( ai_cascadepath( 'includes/core/upload/class.upload.php' ) );
+require_once(ai_cascadepath('includes/plugins/pop3/api.php'));
 
 require_once "ImapClient/ImapClientException.php";
 require_once "ImapClient/ImapConnect.php";
@@ -23,6 +24,7 @@ global $AI;
 
 
 $userid = $AI->user->userID;
+
 $maildata = array('email'=>'dev007@nexmedsolutions.com','password'=>'P@ss0987','name'=>'Debasis Kar');
 
 $data = $AI->db->GetAll("SELECT m.*,u.first_name,u.last_name FROM user_mails m INNER JOIN users u ON u.userID = m.userID WHERE u.userID = " . (int) $userid);
@@ -30,7 +32,7 @@ $data = $AI->db->GetAll("SELECT m.*,u.first_name,u.last_name FROM user_mails m I
 if(isset($data[0])){
     $password = base64_decode(base64_decode($data[0]['password']));
 
-    $maildata =  array('email'=>$data[0]['email'],'password'=>$password,'name'=>$data[0]['first_name']." ".$data[0]['last_name']);
+    $maildata =  array('email'=>$data[0]['email'],'password'=>$password,'name'=>$data[0]['first_name']." ".$data[0]['last_name'],'signature'=>$data[0]['signature'],'show_signature'=>$data[0]['show_signature']);
 }
 
 $mailbox = 'galaxy.apogeehost.com';
@@ -48,11 +50,12 @@ try{
 
 
 $toaddr = '';
+$toaddr_arr = array();
 $subject = '';
 $pmailbody = '';
 
 if(isset($_GET['type']) && isset($_GET['id'])){
-    if($_GET['type'] == 'replyIn' || $_GET['type'] == 'forwardIn'){
+    if($_GET['type'] == 'replyIn' || $_GET['type'] == 'replyAllIn' || $_GET['type'] == 'forwardIn'){
         $mailid = $_GET['id'];
         $stream=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX", $username, $password);
         $uid = imap_uid($stream,$_GET['id']);
@@ -62,7 +65,31 @@ if(isset($_GET['type']) && isset($_GET['id'])){
         $pmailbody=$imap->getBody($uid);
         $pmailbody=trim($pmailbody['body']);
 
-        if($_GET['type'] == 'replyIn'){
+        //$toaddr_arr
+
+        if($_GET['type'] == 'replyIn' || $_GET['type'] == 'replyAllIn'){
+
+            if(isset($messageheader->from)){
+                $reply = $messageheader->from;
+                if(isset($reply[0])){
+                    $toaddr_arr[] = trim($reply[0]->mailbox)."@".trim($reply[0]->host);
+                }
+            }
+
+            if($_GET['type'] == 'replyAllIn'){
+                if(isset($messageheader->to)){
+                    $to = $messageheader->to;
+                    if(count($to)){
+                        foreach($to as $row){
+                            $mail2222 = trim($row->mailbox)."@".trim($row->host);
+                            if($mail2222 != $maildata['email']){
+                                $toaddr_arr[] = $mail2222;
+                            }
+                        }
+                    }
+                }
+            }
+
 
             $bodybefore = '';
             if(isset($messageheader->udate) && isset($messageheader->fromaddress)){
@@ -70,13 +97,6 @@ if(isset($_GET['type']) && isset($_GET['id'])){
             }
 
             $pmailbody = $bodybefore.$pmailbody;
-
-            if(isset($messageheader->reply_to)){
-                $reply = $messageheader->reply_to;
-                if(isset($reply[0])){
-                    $toaddr = $reply[0]->mailbox."@".$reply[0]->host;
-                }
-            }
 
             $subject = $messageheader->subject;
             if(!empty($subject)){
@@ -117,12 +137,6 @@ if(isset($_GET['type']) && isset($_GET['id'])){
 
 
         if($_GET['type'] == 'replySent'){
-            $bodybefore = '';
-            if(isset($messageheader->udate) && isset($messageheader->fromaddress)){
-                $bodybefore = 'On '.date('Y-m-d H:i',$messageheader->udate).', '.$messageheader->fromaddress.' wrote:<br>';
-            }
-
-            $pmailbody = $bodybefore.$pmailbody;
 
             if(isset($messageheader->reply_to)){
                 $reply = $messageheader->reply_to;
@@ -130,6 +144,24 @@ if(isset($_GET['type']) && isset($_GET['id'])){
                     $toaddr = $reply[0]->mailbox."@".$reply[0]->host;
                 }
             }
+
+            if(isset($messageheader->to)){
+                $to = $messageheader->to;
+                if(count($to)){
+                    foreach($to as $row){
+                        $toaddr_arr[] = trim($row->mailbox)."@".trim($row->host);
+                    }
+                }
+            }
+
+            $bodybefore = '';
+            if(isset($messageheader->udate) && isset($messageheader->fromaddress)){
+                $bodybefore = 'On '.date('Y-m-d H:i',$messageheader->udate).', '.$messageheader->fromaddress.' wrote:<br>';
+            }
+
+            $pmailbody = $bodybefore.$pmailbody;
+
+
 
             $subject = $messageheader->subject;
             if(!empty($subject)){
@@ -155,7 +187,7 @@ if(isset($_GET['type']) && isset($_GET['id'])){
         }
 
     }
-    if($_GET['type'] == 'replyTr' || $_GET['type'] == 'forwardTr'){
+    if($_GET['type'] == 'replyTr' || $_GET['type'] == 'replyAllTr' || $_GET['type'] == 'forwardTr'){
         $mailid = $_GET['id'];
         $stream=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX.Trash", $username, $password);
         $uid = imap_uid($stream,$_GET['id']);
@@ -165,7 +197,45 @@ if(isset($_GET['type']) && isset($_GET['id'])){
         $pmailbody=$imap->getBody($uid);
         $pmailbody=trim($pmailbody['body']);
 
-        if($_GET['type'] == 'replyTr'){
+        if($_GET['type'] == 'replyTr' || $_GET['type'] == 'replyAllTr' ){
+
+            $fromddd33 = '';
+
+            if(isset($messageheader->from)){
+                $fromddd = $messageheader->from;
+                if(isset($fromddd[0])){
+                    $fromddd33 = trim($fromddd[0]->mailbox)."@".trim($fromddd[0]->host);
+                }
+            }
+
+            if($fromddd33 == $maildata['email']){
+                if(isset($messageheader->to)){
+                    $to = $messageheader->to;
+                    if(count($to)){
+                        foreach($to as $row){
+                            $mail2222 = trim($row->mailbox)."@".trim($row->host);
+                            if($mail2222 != $maildata['email']){
+                                $toaddr_arr[] = $mail2222;
+                            }
+                        }
+                    }
+                }
+            }else{
+                $toaddr_arr[] = $fromddd33;
+                if($_GET['type'] == 'replyAllTr'){
+                    if(isset($messageheader->to)){
+                        $to = $messageheader->to;
+                        if(count($to)){
+                            foreach($to as $row){
+                                $mail2222 = trim($row->mailbox)."@".trim($row->host);
+                                if($mail2222 != $maildata['email']){
+                                    $toaddr_arr[] = $mail2222;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             $bodybefore = '';
             if(isset($messageheader->udate) && isset($messageheader->fromaddress)){
@@ -174,12 +244,7 @@ if(isset($_GET['type']) && isset($_GET['id'])){
 
             $pmailbody = $bodybefore.$pmailbody;
 
-            if(isset($messageheader->reply_to)){
-                $reply = $messageheader->reply_to;
-                if(isset($reply[0])){
-                    $toaddr = $reply[0]->mailbox."@".$reply[0]->host;
-                }
-            }
+
 
             $subject = $messageheader->subject;
             if(!empty($subject)){
@@ -222,7 +287,14 @@ if(isset($_GET['type']) && isset($_GET['id'])){
 
         $subject = $messageheader->subject;
         $toaddr = $messageheader->toaddress;
+        $toaddr1 = $messageheader->to;
 
+
+        if(count($toaddr1)){
+            foreach($toaddr1 as $row){
+                $toaddr_arr[] = $row->mailbox."@".$row->host;
+            }
+        }
     }
 
 }
@@ -291,8 +363,13 @@ if(util_is_POST()) {
 
     //imap_append($stream,"{galaxy.apogeehost.com}INBOX.Sent","From: ".$maildata['email']."\r\n"."To: samsujj@gmail.com\r\n"."Subject: This is the subject\r\n"."$header\r\n"."$msg1\r\n"."$msg2\r\n"."$msg3\r\n");
 
-
-    $toaddr = $_POST['toaddr'];
+    $toaddr = array();
+    if(isset($_POST['toaddrs']))
+        $toaddr = $_POST['toaddrs'];
+    if(!empty($_POST['toaddrcus'])){
+        $toaddr[] = $_POST['toaddrcus'];
+    }
+    $toaddr = array_unique($toaddr);
     $subject = $_POST['subject'];
     $pmailbody = $mailbody;
 
@@ -303,15 +380,14 @@ if(util_is_POST()) {
         foreach($_POST['ai_upload_add'] as $row){
             $file = $row;
             $file_arr = explode('|',$file);
-            $mailbody .= '<a href="http://mars.apogeehost.com/~nexmed/uploads/files/'.$file_arr[0].'/'.$file_arr[1].'">'.$file_arr[1].'</a><br>';
+            $mailbody .= '<a href="http://mars.apogeehost.com/~nexmed/uploads/files/'.$file_arr[0].'/'.strtolower($file_arr[1]).'">'.strtolower($file_arr[1]).'</a><br>';
         }
     }
 
 
     $email_name = 'imapsent';
-    $send_to = $_POST['toaddr'];
+    $send_to = implode(',',$toaddr);
     $send_from = 'test@test.com';
-
 
     $default_vars = array
     (
@@ -341,6 +417,23 @@ if(util_is_POST()) {
                 , "From: ".$maildata['email']."\r\n"."To: ".$send_to."\r\n"."Subject: ".$_POST['subject']."\r\n"."$header\r\n"."$msg1\r\n"."$msg2\r\n"."$msg3\r\n");
             imap_close ($stream);
 
+            if(isset($_GET['type']) && $_GET['type'] == 'draft'){
+                $stream2=@imap_open("{galaxy.apogeehost.com/novalidate-cert}INBOX.Drafts", $username, $password);
+                if(isset($_GET['id'])){
+                    imap_delete($stream2, intval($_GET['id']));
+                    imap_expunge($stream2);
+                }
+            }
+
+
+            if(count($toaddr)){
+                foreach($toaddr as $row){
+                    $mailres = $AI->db->GetAll("SELECT * FROM `mail_id_list` WHERE `userID`=".(int)$userid." AND `mail` LIKE '".$row."'");
+                    if(count($mailres) == 0){
+                        db_query("INSERT INTO `mail_id_list` ( `userID`, `mail`) VALUES ( ".$userid.", '".$row."');");
+                    }
+                }
+            }
 
             util_redirect('imapinbox');
         }
@@ -373,10 +466,17 @@ $draftscount = $imap->countMessages();
 $AI->skin->css('includes/plugins/imap/style.css');
 //$AI->skin->js('includes/plugins/tinymce/tinymce.min.js');
 
+
+if($maildata['show_signature'] == 1){
+    $pmailbody .= '<br><br>'.trim(preg_replace('/\s\s+/', ' ', $maildata['signature']));
+}
+
+
+
 ?>
 
 <script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
-
+<script type="text/javascript" src="includes/plugins/imap/imap.js"></script>
 <script>
     function getval() {
 
@@ -385,8 +485,8 @@ $AI->skin->css('includes/plugins/imap/style.css');
     }
 
 
-    $(function(){
-        $('#compose-textarea').html('<?php echo $pmailbody;?>');
+    $(function() {
+        $('#compose-textarea').html($('#pmailbody').val());
 
         tinymce.init({
             selector: 'textarea#compose-textarea',
@@ -404,10 +504,19 @@ $AI->skin->css('includes/plugins/imap/style.css');
 
         //tinyMCE.activeEditor.setContent(xcxz);
         //tinyMCE.get('compose-textarea')..setContent('<strong>Some contents</strong>');
-    })
+
+
+    });
+
+
+
+
+
+
 
 </script>
 
+<textarea id="pmailbody" style="display: none;"><?php echo $pmailbody;?></textarea>
 
 <div class="mailinbox">
     <div class="mailinboxblock">
@@ -433,10 +542,12 @@ $AI->skin->css('includes/plugins/imap/style.css');
                         </div>
                         <div class="box-body no-padding navbar-collapse" id="navbar-collapse-1">
                             <ul class="nav nav-pills nav-stacked">
+                                <li class="activemail"><a href="imapcreate"><span class="glyphicon glyphicon-pencil"></span>Compose</span></a></li>
                                 <li><a href="/~nexmed/imapinbox"><span class="glyphicon glyphicon-inbox"></span>Inbox <span class="label label-green pull-right"><?php echo count($emails) ; ?></span></a></li>
-                                <li><a href="/~nexmed/imapdrafts"><span class="glyphicon glyphicon-pencil"></span> Drafts<span class="label label-red pull-right"><?php echo $draftscount; ?></span></a></li>
+                                <li><a href="/~nexmed/imapdrafts"><span class="glyphicon glyphicon-folder-open"></span> Drafts<span class="label label-red pull-right"><?php echo $draftscount; ?></span></a></li>
                                 <li><a href="/~nexmed/imapsentbox"><span class="glyphicon glyphicon-envelope"></span> Sent Mail <span class="label label-red pull-right"><?php echo $overallMessages; ?></span></a></li>
                                 <li><a href="/~nexmed/imaptrash"><span class="glyphicon glyphicon-trash"></span> Trash<span class="label label-red pull-right"><?php echo $trashcount; ?></span></a></li>
+                                <li><a href="set-signature"><span class="glyphicon glyphicon-cog"></span> Settings</span></a></li>
                             </ul>
                         </div>
                         <!-- /.box-body -->
@@ -446,7 +557,7 @@ $AI->skin->css('includes/plugins/imap/style.css');
                 <!-- /mailright.col -->
                 <div class="col-md-10 col-sm-9 col-xs-12 mailinboxright">
                     <div class="new_form_header">
-                    <h2><span>Mail</span> Inbox</h2>
+                    <h2><span>Mail</span> Compose Mail</h2>
                         <div class="clearfix"></div>
                     </div>
 
@@ -456,9 +567,26 @@ $AI->skin->css('includes/plugins/imap/style.css');
                         </div>
                         <!-- /.box-header -->
                         <form name="landing_page" id="landing_page_chk" action="<?=$_SERVER['REQUEST_URI']?>" method="post">
+
                         <div class="box-body">
-                            <div class="form-group">
-                                <input name="toaddr" class="form-control" placeholder="Message to:" style="padding:0;" value="<?php echo $toaddr;?>">
+                            <div class="form-group toaddrcls form-control" style="padding-bottom: 18px;">
+                                <div class="clearfix"></div>
+                                <?php
+                                if(count($toaddr_arr)){
+                                    foreach($toaddr_arr as $row){
+                                        ?>
+                                        <span class="toaddrspan">
+                                            <input type="hidden" name="toaddrs[]" value="<?php echo trim($row)?>" >
+                                            <?php echo trim($row)?>
+                                            <a onclick="mailclose(this)" href="javascript:void();">x</a>
+                                        </span>
+                                        <?php
+                                    }
+                                }
+                                ?>
+
+                                <select name="mailselect" id="mailselect" style="display:none">
+                                </select>
                             </div>
                             <div class="form-group">
                                 <input name="subject" class="form-control" placeholder="Message subject:" style="padding:0;" value="<?php echo $subject;?>">
@@ -514,5 +642,4 @@ $AI->skin->css('includes/plugins/imap/style.css');
             </div>
         </section>
     </div>
-</div>
 </div>

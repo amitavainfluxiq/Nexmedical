@@ -38,10 +38,11 @@ if(util_is_POST()) {
         $new_tag_list=['EC - Pending Admin Compensation Input'];
         $tags = new C_tags('lead_management',db_lookup_scalar("select lead_id from users where userid = ". $AI->user->userID));
         //$old_tag_list = $tags->get_current_tags();
-        $tags->remove(['New Pre-Qualified Rep']);
+        //$tags->remove(['New Pre-Qualified Rep']);
+        $tags->remove(['Temp Pre-Qualified Rep']);
         $tags->add($new_tag_list);
 
-        //util_redirect( 'contract-waiting' );
+        util_redirect( 'contract-waiting' );
 
     }
 
@@ -119,8 +120,7 @@ if(util_is_POST()) {
 
     <div class="pdf_page1_block1" style="text-align: left;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEREAS, the Parties to this Agreement desire to meet the requirements of all
-        applicable laws, including 42 USC §1395nn, ("Stark Law"), and 42 USC §1320a-7b, ("Antikickback
-        Law");</div>
+        applicable laws, including 42 USC §1395nn, ("Stark Law"), and 42 USC §1320a-7b, ("Anti-kickback Law");</div>
 
 
 
@@ -227,13 +227,7 @@ if(util_is_POST()) {
     <h3>VI. TERMINATION</h3>
 
     <div class="pdf_page1_block1" style="text-align: left;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A. This Agreement may be terminated by the Employee at any time. When the Employer
-        receives notice of Employee’s voluntary termination, the Employer may, at its sole discretion,
-        immediately effect the voluntary termination of the Employee’s employment. Any voluntary
-        termination of this Agreement by the Employee as described in this provision shall terminate the
-        rights and obligations of each of the Parties except as to those which survive the termination of
-        this Agreement as described in Section VII (A) through (E), Exhibit A, and in Section III (C)
-        herein.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A. This Agreement may be terminated by the Employee at any time, upon written notice.  When the Employer receives notice of Employee’s voluntary termination, the Employer may, at its sole discretion, immediately effect the voluntary termination of the Employee’s employment. Any voluntary termination of this Agreement by the Employee or Employer as described in this provision and Agreement herein shall terminate the rights and obligations of each of the Parties except as to those which survive the termination of this Agreement as described in Section VII (A) through (E), in Exhibit A, in Section IX (G) and (H), and in Section III (C) herein.
 
     </div>
 
@@ -292,17 +286,7 @@ if(util_is_POST()) {
 
     <div class="pdf_page1_block1" style="text-align: left;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.  <u style="text-decoration: underline;">Non-Solicitation of Employees and/or Employer’s Vendors, Distributors or
-        Manufactures</u>. During Employee’s employment and for two (2) years following termination
-        thereof, irrespective of the reason for such termination, the Employee shall not, directly or
-        indirectly, for his or her own account or for the account of any other person or entity, (i) solicit
-        for employment, employ or otherwise interfere with the relationship of the Employer or any of
-        its affiliates with any individual who is or was employed by, or with any vendor, distributor or
-        manufacture who provided services or technology to, or was otherwise engaged to provide
-        services or technology for the Employer or any of its affiliates in connection with the Business at
-        any time during which the Employee was employed by the Employer, or (ii) induce any
-        employee of the Employer or any of its affiliates, or any vendor, distributor or manufacture to
-        Employer, to terminate his or her employment with, or terminate the services provided to, the
-        Employer.
+        Manufactures</u>. During Employee’s employment and for two (2) years following termination thereof, irrespective of the reason for such termination, the Employee shall not, directly or indirectly, for his or her own account or for the account of any other person or entity, (i) solicit for employment, employ or otherwise interfere with any relationship of the Employer or any of its affiliates with any individual who is or was employed by, or with any vendor, distributor or manufacture who provided services or technology to, or was otherwise engaged to provide services or technology for the Employer or any of its affiliates in connection with the Business at any time during which the Employee was employed by the Employer, or (ii) induce any employee of the Employer or any of its affiliates, or any vendor, distributor or manufacture to Employer, to terminate his or her employment with, or terminate the services provided to, the Employer.
 
     </div>
 
@@ -355,8 +339,7 @@ if(util_is_POST()) {
         between the Parties, and no amendments or additions to this Agreement shall be binding
         unless they are in writing and signed by both Parties.</li>
 
-    <li style="list-style-type: upper-alpha; padding: 10px 0;"> This Agreement shall be binding upon the Parties, their legal representatives, successors,
-        and assigns.</li>
+    <li style="list-style-type: upper-alpha; padding: 10px 0;">This Agreement shall be binding upon the Parties, their legal representatives, successors, and assigns, and inures to their benefits. </li>
 
     <li style="list-style-type: upper-alpha; padding: 10px 0;"> This Agreement abrogates and takes the place of all prior employment contracts and/or
         understandings that may have been made by the Employer.</li>
@@ -511,10 +494,7 @@ if(util_is_POST()) {
 
                 </div>
 
-                <h5>By selecting "agreell". the parttes agree that this agreement may be electronically
-                    signed. The parties agree that the electronic signatures appearing on this agreement
-                    are the same as handwritten signatures for the purposes of validity. enter
-                    ceability. and admissibility,
+                <h5>By selecting “agree”, the parties agree that this agreement may be electronically signed. The parties agree that the electronic signatures appearing on this agreement are the same as handwritten signatures for the purposes of validity, enforceability, and admissibility.
                 </h5>
 
                 <div class="pop_btn_drapper">

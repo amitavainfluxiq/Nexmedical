@@ -18,7 +18,7 @@ $salesrepname = db_lookup_scalar("SELECT salesrepname FROM rep_contract WHERE us
     <div class="container contract_waitingdiv_block1" >
         <table width="100%"  border="0">
 <tr><td valign="middle">
-        Congrats Samsuj Jaman!<br/><br/>
+        Congrats!<br/><br/>
 
         Your employment is now in its final review. Your Exhibit A - Compensation
         form is now being generated.<br/><br/>
