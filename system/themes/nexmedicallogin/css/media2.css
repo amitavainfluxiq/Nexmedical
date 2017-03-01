@@ -6,14 +6,16 @@
 }
 
 
-@media only screen and (max-width:600px) {
+@media only screen and (max-width:660px) {
     .loginbox_formwrapper {  width: 90%;}
 
     .rememberline{ width: 120px; float: none; margin: 0 auto;}
 
 
-    .login_bottomwrapper2 #login_box_iforget{ float: none!important; text-align: center!important; margin: 0 auto!important; padding-top: 5px; display:block; text-align: center; width: 150px; }
+    .login_bottomwrapper2 #login_box_iforget{ float: none!important; text-align: center!important; margin: 0 auto!important; padding-top: 10px!important; display:block; text-align: center; width: 100%!important; }
 
-    .login_box_wrapper{    margin-top: 60px!important; margin-bottom: 60px!important; }
-
+    .login_box_wrapper{ height: auto!important; min-height: 100vh!important;  padding-top: 150px!important; padding-bottom: 150px!important;}
+#login_box{height: auto!important;  min-height: 100vh!important; padding-top: 150px!important; padding-bottom: 150px!important;}
+    .notregistered{ display: block!important; width: 100%!important; text-align: center!important; float: none!important;}
+    .notregistered a{ display: inline-block;}
 }

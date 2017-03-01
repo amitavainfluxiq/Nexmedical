@@ -1,7 +1,60 @@
 /*Home page media css----*/
 
+@media only screen and (max-width: 1800px) {
+.temp-home_mainwrapper{ width: 100%; height: 685px;  background-size: 1800px; }
+}
+
+@media only screen and (max-width: 1680px) {
+    .temp-home_mainwrapper{ width: 100%; height: 516px;  background-size: 1800px; background-position: -200px top; }
+    .contact_form_block{ margin: 28px auto;}
+    .contact_form_block .contact_form_left .form-control{ height: 44px; margin-bottom: 16px;}
+    .contact_form_block .contact_form_left .form-control2{ height: 195px; margin-bottom: 16px;}
+}
 
 
+
+
+@media only screen and (max-width: 1400px) {
+    .temp-home_mainwrapper{ width: 100%; height: 383px;  background-size: 1600px; background-position: -200px top; }
+    .contact_form_block{ margin: 15px auto; width: 80%!important;}
+
+
+    .contact_form_right h2{ font-size: 14px; line-height: 20px;     margin-top: 2px;
+        margin-bottom: 2px;}
+    .contact_form_right h4{ font-size: 14px; line-height: 20px;      margin-top: 2px;
+        margin-bottom: 2px;    padding: 5px 0 5px 45px;}
+    .contact_form_right h3{ font-size: 14px; line-height: 20px;      margin-top: 2px;
+        margin-bottom: 2px;    padding: 5px 0 5px 45px;}
+    .contact_form_block .contact_form_left .form-control2{ height: 125px; margin-bottom: 10px;}
+    .contact_form_block .contact_form_left .form-control{ height: 40px; margin-bottom: 10px;}
+
+    .contact_form_block .contact_form_left{ width: 70%;}
+    .contact_form_block .contact_form_right{ width: 28%;}
+}
+
+
+@media only screen and (max-width: 1199px) {
+    .temp-home_mainwrapper{ width: 100%; height: 555px;  background-size: 1400px; background-position: -200px top; }
+
+    .doctorporta_btn{ float: right; margin-right: 40px;}
+}
+
+@media only screen and (max-width: 780px) {
+
+    .temp-home_mainwrapper{ width: 100%; height: 555px;  background-size: 1400px; background-position: -310px top; }
+}
+
+
+@media only screen and (max-width: 680px) {
+    .doctorporta_btn{  width: 280px; height: 75px;  background-size: cover; margin-right: 15px;}
+
+    .doctorporta_btn a{ font-size: 20px;  padding: 25px 0 0 82px;}
+}
+
+@media only screen and (max-width: 530px) {
+    .doctorporta_btn{ float: none; margin: 0 auto; margin-bottom: 10px;}
+    .temp-home_mainwrapper td{ width: 100%; height: 100%; border: none; vertical-align: bottom;}
+}
 
 @media only screen and (max-width: 1700px) {
 
@@ -16,6 +69,27 @@
 }
 
 @media only screen and (max-width: 1500px) {
+
+
+    .updateleadwrapper{ width: 1260px!important; margin: 0 auto !important; margin-bottom: 20px;}
+
+    .updateleadwrapper .span4{ width: 355px!important; margin: 0px!important; float: right;}
+
+
+
+    .updateleadwrapper .span12{ width:870px!important}
+
+
+
+    .lead_management_table{ width: 1260px!important;}
+
+
+    .lead_management_table #button_action_panel{ width: 355px!important; margin: 0px!important;}
+
+    .lead_management_table #lead_management_fieldset{ width: 870px!important;}
+
+    #button_action_panel #lead_management_qsearch_form #te_qkeywords{width: 290px !important;}
+
     .page-training .training_container{ width:1200px;}
 
     .page-training  .training_left_side{  width: 900px!important; }
@@ -25,6 +99,45 @@
 
     .page-training  .dashboard_side_menu .icon_button{ width: 260px;}
 
+
+    .lead_management_banner_wrapper {
+        width: auto;
+        padding: 0 0 0 20px;
+    }
+
+    .lead_management_banner_text{ width: 600px;}
+
+    .lead_management_banner_text h2 {
+
+        background-size: 146px;
+        padding: 20px 190px 20px 0;
+        font-size: 38px;
+
+    }
+
+
+    .lead_management_banner_text h3{padding: 10px 0 0 0;}
+
+
+    /*---------*/
+
+    .manage_contact_banner_wrapper {
+        width: auto;
+        padding: 0 0 0 20px;
+    }
+
+    .manage_contact_banner_text{ width: 550px;}
+
+    .manage_contact_banner_text h2 {
+
+        background-size: 146px;
+        padding: 20px 190px 20px 0;
+        font-size: 38px;
+
+    }
+
+
+    .manage_contact_banner_text h3{padding: 10px 0 0 0;}
 }
 
 
@@ -85,7 +198,17 @@
 }
 
 
+@media only screen and (max-width: 1280px) {
 
+    .menu_block2 .menu_block2_link a{    margin: 0px 10px!important;}
+    .lead_management_banner_text {
+        width: 480px;
+    }
+
+    .manage_contact_banner_text {
+        width: 540px;
+    }
+}
 
 
 
@@ -96,6 +219,13 @@
 
     .information-form_wrapper{  padding: 30px 180px 30px 30px!important; min-height:inherit; background-size: 580px;}
 
+
+}
+
+
+@media only screen and (max-width: 1230px) {
+
+    .menu_block2 .menu_block2_link a{    margin: 0px 6px!important;}
 
 }
 
@@ -117,6 +247,109 @@
 
 
 @media only screen and (max-width: 1199px) {
+
+
+
+    .lead_management_table{ width: 90%!important;}
+
+
+    .lead_management_table #button_action_panel{ width: 405px!important; margin: 0px auto!important; float: none; margin-bottom: 20px!important;}
+
+    .lead_management_table #lead_management_fieldset{ width: 100%!important; float: none;}
+
+    #button_action_panel #lead_management_qsearch_form #te_qkeywords{width: 340px !important;}
+
+
+
+
+    .lead_management_banner{   width:100%; background-size: 220%; height: auto; padding-top: 36%;  }
+
+    .lead_management_banner_wrapper {
+        width: auto;
+        padding: 20px 0;
+    }
+
+
+    .lead_management_banner_text{ width: 100%; height: auto; display: table-cell; vertical-align: middle;}
+
+
+    .lead_management_banner_text h2 {
+        margin: 0;
+        background: url("../images/nex_logo.png") no-repeat top center;
+        background-size: 180px;
+        padding:  105px 10px 0 10px;
+        font-size: 36px; text-align: center;
+
+    }
+
+    .lead_management_banner_text h3 { text-align: center; padding:  0 10px;}
+
+
+
+    /*-------*/
+
+    .manage_contact_banner{   width:100%; background-size: 220%; height: auto; padding-top: 36%;  }
+
+    .lead_management_banner_wrapper {
+        width: auto;
+        padding: 20px 0;
+    }
+
+
+    .manage_contact_banner_text{ width: 100%; height: auto; display: table-cell; vertical-align: middle; padding:10px 0 20px 0;}
+
+
+    .manage_contact_banner_text h2 {
+        margin: 0;
+        background: url("../images/nex_logo.png") no-repeat top center;
+        background-size: 180px;
+        padding:  105px 10px 0 10px;
+        font-size: 36px; text-align: center;
+
+    }
+
+    .manage_contact_banner_text h3 { text-align: center; padding:  0 10px;}
+
+    .menu_block2 .menu_block2_logo {
+        display: block;
+        float: none;
+        width: 190px;
+        margin: 20px auto;
+        padding-top: 0px;
+    }
+
+    .menu_block2 .menu_block2_logo .nex_logo {
+        width: 100%;
+    }
+
+    .menu_block2 .menu_block2_link {
+        display: block;
+        float: none;
+        margin-left: 0;
+    }
+
+    .menu_block2{ background-image: none;}
+    .menu_block2 .menu_block2_link .menuicon {
+        display: block;
+        margin: 0 auto;
+        margin-bottom:10px; float: none;
+    }
+
+
+    .menu_block2 .menu_block2_link a{ display:inline-block; margin: 0 auto; position: relative;}
+
+    .menu_block2_link .menu_block2_ullink{ display: block; margin: 0 auto; width: 100%; margin-bottom: 10px;   border-bottom: solid 1px #1b607f; }
+
+    .menu_block2_link .menu_block2_ullink li{ display: block; float: none;  border-top: solid 1px #1b607f; padding: 10px 0; text-align: center;}
+    .menu_block2_link .menu_block2_ullink li:hover{ background: #071014!important;}
+
+    .menu_block2_link .menu_block2_ullink .dropdown-menu{ background: #03090c!important; box-shadow:none!important; border:none!important; padding: 0px; border-radius: 0px!important; width: 100%; position: inherit;}
+
+    .menu_block2_link .menu_block2_ullink .dropdown-menu li{ display: block!important; width: 100%!important; padding: 3px; text-align: center!important;}
+
+    .menu_block2_link .menu_block2_ullink .dropdown-menu li a{ display:inline-block!important; margin: 0 auto!important; text-align: center!important;}
+
+
 
     .nms100_wrapperblock{ width: 90%!important;}
 
@@ -234,7 +467,7 @@
 
 
 @media only screen and (max-width: 991px) {
-
+    .home_top_menu2 .topmenu2_righttemp-home .navbar{ width: 100%;}
 
     .videos_wrapperblock .videos_block_con:nth-of-type(1){ padding: 0px;}
     .videos_wrapperblock .videos_block_con:nth-of-type(2){ padding: 0px;}
@@ -304,9 +537,9 @@
     .menu_block2 .menu_block2_logo .nex_logo{ width: 100%;}
     .menu_block2 .menu_block2_link{ display: block; width: 100%; float: none; text-align: center; padding-bottom: 0px; margin-left: 0px;}
 
-    .menu_block2 .menu_block2_link a{ display: inline-block; margin-bottom: 20px;}
 
-    .menu_block2 .menu_block2_link .menuicon{ display: block; margin: 0 auto; margin-bottom: 20px;}
+
+
 
 
 
@@ -449,7 +682,7 @@
 
     .home_top_menu2 .container{ width: 100%; margin: 0 auto; padding: 0px;}
 
-
+    .temp-home-top .container{ width: 90%; margin: 0 auto; padding: 0px; }
 
     .home_top_menu2 .topmenu2_right .navbar a{  padding: 19px 19px;}
 
@@ -463,6 +696,8 @@
     .home_top_menu2 .topmenu2_left{ padding-left: 20px;}
 
     .home_block6 { width: 90%; margin: 0 auto; padding: 0px;}
+
+    .adddoctor_body_wrapper{ width: 90%!important;}
 
     .contact_form_block{ width: 90%!important;}
 
@@ -489,6 +724,10 @@
 
     .about_banner_block .container{ padding: 0px!important;  width: 100%!important;}
 
+    .adddoctor_banner_block .container{ padding: 0px!important;  width: 100%!important;}
+
+    .resources_banner_block .container{ padding: 0px!important;  width: 100%!important;}
+
 
     .videos_banner_block .container {
         padding: 0px !important;
@@ -498,11 +737,26 @@
 }
 
 @media only screen and (max-width: 1199px) {
+
+    .temp-home-top .container{ width: 90%; margin: 0 auto; padding: 0px; text-align: center; }
+
+
+    .add_doctor_formconbox .form-group4 .form-control {
+        width: 60%;}
+
     .videos_wrapperblock{ width: 90%!important;}
 
     .about_banner_block{ background-position: right top; height: 410px;}
 
     .about_banner_block h2{background:#333; text-align:center; padding: 25px 25px 20px 25px; font-size: 60px; color: #fff; text-transform: uppercase;  font-family: 'ralewaybold'; margin: 298px 0 0 0; display: block;}
+
+  /*  .adddoctor_banner_block{ background-position: right top; height: 410px;}
+    .adddoctor_banner_block h2{background:#333; text-align:center; padding: 25px 25px 20px 25px; font-size: 60px; color: #fff; text-transform: uppercase;  font-family: 'ralewaybold'; margin: 298px 0 0 0; display: block;}
+*/
+
+    .resources_banner_block{ background-position: right top; height: 410px;}
+    .resources_banner_block h2{background:#333; text-align:center; padding: 25px 25px 20px 25px; font-size: 60px; color: #fff; text-transform: uppercase;  font-family: 'ralewaybold'; margin: 298px 0 0 0; display: block;}
+
 
     .contact_banner_block h2{background:#333; text-align:center; padding: 25px 25px 20px 25px; font-size: 60px; color: #fff; text-transform: uppercase;  font-family: 'ralewaybold'; margin: 298px 0 0 0; display: block;}
 
@@ -570,9 +824,9 @@
         float: none; margin-top: 34px;
     }
 
-    .contact_form_right h2{ text-align: center; background-position: center top; padding: 35px 0 0 0; margin-bottom: 15px;}
-    .contact_form_right h3{ text-align: center; background-position: center top; padding: 35px 0 0 0; margin-bottom: 15px;}
-    .contact_form_right h4{ text-align: center; background-position: center top; padding: 35px 0 0 0;}
+    .contact_form_right h2{ text-align: center; background-position: center top; padding: 35px 0 0 0; margin-bottom: 15px; margin-top: 15px;}
+    .contact_form_right h3{ text-align: center; background-position: center top; padding: 35px 0 0 0; margin-bottom: 15px;  margin-top: 15px;}
+    .contact_form_right h4{ text-align: center; background-position: center top; padding: 35px 0 0 0;  margin-top: 15px;}
     .consubbtn{ display: block!important; float: none!important; margin: 0 auto!important;}
 
 
@@ -649,9 +903,16 @@
 
 @media only screen and (max-width: 960px) {
 .about_banner_block{ background-position: -660px top;}
+
+    .resources_banner_block{ background-position:-620px top;}
 }
 
+@media only screen and (max-width: 900px) {
 
+    .add_doctor_formconbox .form-group4 .form-control {
+        width: 50%;
+    }
+}
 
 @media only screen and (max-width:880px) {
     .nms100_banner_block{ background-position: -320px top;}
@@ -717,7 +978,7 @@
 @media only screen and (max-width: 767px) {
 
 
-
+    .temp-home-top{ font-size: 16px;}
 
     .newtraining_awrapper h2{ font-size: 40px; text-align: center; background-size: 100px; background-position: center top; padding: 62px 0 0 0; }
 
@@ -751,9 +1012,9 @@
 }
 
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 720px) {
 
-
+    .add_doctor_formconbox h2{ text-align: center;}
     #quiz{ width: 400px!important;}
     .home_block6 .home6ulblock{padding: 0px 0 240px 0px; background-size: 400px;}
 
@@ -761,6 +1022,45 @@
 
     .videos_banner_block{background-position: -750px top;}
 
+
+    .add_doctor_formconbox  .form-group{ width: auto; float: none;}
+    .add_doctor_formconbox  .form-group .form-control{ width: 100%; float: none;}
+
+    .add_doctor_formconbox  .form-group2{ width: auto; float: none;}
+    .add_doctor_formconbox  .form-group2 .form-control{ width: 100%; float: none;}
+
+    .add_doctor_formconbox  .form-group3{ width: auto; float: none;}
+    .add_doctor_formconbox  .form-group3 .form-control{ width: 100%; float: none;}
+
+    .add_doctor_formconbox  .form-group4{ width: auto; float: none;}
+    .add_doctor_formconbox  .form-group4 .form-control{ width: 100%; float: none;}
+
+
+    .add_doctor_formconbox h2{ margin: 0px; margin-bottom: 5px;}
+
+    .add_doctor_formconbox{ padding: 10px;}
+
+    .add_doctor_formconbox .form-group4 input[type="button"]{ float: none; margin-top: 8px;}
+
+
+
+}
+
+
+
+@media only screen and (max-width: 640px) {
+
+    .doctor_login_boxcon{ width: 400px; padding: 40px 0;}
+
+    .doctor_login_boxcon .login_bottom_con label{ display: block; width: 100%; text-align: center; padding-bottom: 10px;}
+    .doctor_login_boxcon .login_bottom_con span{ display: block; width: 100%; text-align: center;}
+    .doctor_login_boxcon .login_bottom_con label a{ display: inline-block;}
+
+    .doctor_login_boxcon .doctor_login_btn{ width: 343px !important;}
+
+    .doctor_login_wrapper h2{ font-size: 30px;}
+
+    .doctor_login_wrapper .doctor-login-logo{ width: 290px;}
 }
 
 
@@ -787,6 +1087,8 @@
 
     .about_banner_block{ background-position: -1050px top;}
 
+    .adddoctor_body_wrapper{ width: 96%; padding: 0px!important;}
+
     .contact_form_block{ width: 96%; padding: 0px!important;}
 
     .contact_form_block .contact_form_left{ width: 100%; margin-left: auto; margin-right: auto; padding: 0px!important;}
@@ -795,6 +1097,8 @@
     .contact_banner_block{ background-position: -770px top;}
 
     .carouselwrapper .carousalfill{ max-width: inherit!important; width: 290% !important; margin-left: -132%;}
+
+
 }
 
 
@@ -813,9 +1117,43 @@
 }
 
 @media only screen and (max-width: 480px) {
+
+    .adddoctor_banner_block h2{background-size: 60px; width: 90%; display:block; font-size: 28px; background-position:  center 10px; padding: 75px 5px 10px 5px; text-align: center;}
+
+    .lead_management_table #button_action_panel{ width: 280px!important; margin: 0px!important;}
+
+
+     .rephead  h2{background-size: 60px; width: 90%; display:block; font-size: 28px; background-position:  center 10px; padding: 75px 5px 10px 5px; text-align: center;}
+     .mailhead  h2{background-size: 45px; width: 90%; display:block; font-size: 28px; background-position:  center 10px; padding: 66px 5px 10px 5px; text-align: center;}
+
+
+
+
+    #button_action_panel #lead_management_qsearch_form #te_qkeywords{width: 215px !important;}
+
+
     .about_banner_block{ background-position: -1020px top;}
 
     .nms100_wrapperblock .nms100_block_left h3{ font-size: 50px;}
+   /* .adddoctor_banner_block h2{margin: 214px 0 0 0; font-size: 40px;}
+    .adddoctor_banner_block {
+        background-position: right top;
+        height: 304px;
+    }*/
+
+
+    .resources_banner_block h2{margin: 214px 0 0 0; font-size: 40px;}
+    .resources_banner_block {
+        background-position: -590px top;
+        height: 304px;
+    }
+
+
+
+    .ad-form-btn_wrapper{ width: 100%; margin: 10px auto;}
+    .ad-form-btn_wrapper input{ float: none; margin: 0 auto!important; width: 192px;}
+
+    .ad-form-btn_wrapper input:nth-of-type(1){ margin-bottom: 10px!important;}
 
 }
 
@@ -836,7 +1174,31 @@
 
 @media only screen and (max-width:440px) {
     .nms100_banner_block{ background-position: -680px top;}
+
+
+    .ssfullyadd_doctor_btncon .sadd_btn{ display: block!important; width: 250px!important; height: auto!important; line-height: inherit!important;   white-space: normal; min-height: 40px!important;}
 }
+
+
+@media only screen and (max-width: 400px) {
+
+    .doctor_login_boxcon{ width: 300px;}
+
+
+    .doctor_login_boxcon .doctor_login_btn{ width: 243px !important;}
+}
+
+
+
+
+@media only screen and (max-width: 340px) {
+
+    .doctor_login_boxcon{ width: 280px;}
+
+
+    .doctor_login_boxcon .doctor_login_btn{ width: 223px !important;}
+}
+
 
 @media only screen and (max-width:380px) {
     .nms100_banner_block{ background-position: -700px top;}
@@ -864,6 +1226,12 @@
     .about_banner_block{background-size: 1177px;}
 
     .about_banner_block h2{margin: 214px 0 0 0; font-size: 40px;}
+
+   /* .adddoctor_banner_block h2{margin: 214px 0 0 0; font-size: 40px;}*/
+
+    .resources_banner_block h2{margin: 214px 0 0 0; font-size: 40px;}
+
+    .resources_banner_block h2{margin: 214px 0 0 0; font-size: 40px;}
 
     .about_banner_block {
         height: 304px;

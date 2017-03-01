@@ -88,7 +88,7 @@ if(util_is_POST()) {
 
     <div class="pdf_page1_block1" style="text-align: left;">
         This Agreement, (the "Agreement"), is made on the <input type="text" name="cdate"  class="p1_b1_input2n" style="text-align: center;" value="<?php echo $cdate;?>" readonly="readonly" /> day of <input type="text" name="cmonth" style="text-align: center;" class="p1_b1_input2" value="<?php echo $cmonth;?>" readonly="readonly" />, 2017, by and between Nex Medical Solutions, LLC, a Michigan limited liability company, with an address of 610 West
-        Congress, Detroit, MI 48226 ("<strong>Employee</strong>"), and  <input type="text" name="salesrepname" id="salesrepname" value="<?php echo $salesrepname;?>" class="p1_b1_input2 inputbgcon" placeholder="Full Legal Name"/>, with an address of <input type="text" class="p1_b1_input3 inputbgcon" placeholder="Address" name="salesrepaddress" value="<?php echo $salesrepaddress;?>"> ("<strong>Employee</strong>"). (The Employer and
+        Congress, Detroit, MI 48226 ("<strong>Employer</strong>"), and  <input type="text" name="salesrepname" id="salesrepname" value="<?php echo $salesrepname;?>" class="p1_b1_input2 inputbgcon" placeholder="Full Legal Name"/>, with an address of <input type="text" class="p1_b1_input3 inputbgcon" placeholder="Address" name="salesrepaddress" value="<?php echo $salesrepaddress;?>"> ("<strong>Employee</strong>"). (The Employer and
         Employee collectively shall be referred to as “Parties” and individually as "Party"). The Parties have
         negotiated certain terms of the Employee’s part-time employment with the Employer and have come to
         certain understandings about the terms and conditions of employment and wish to evidence this in
@@ -323,7 +323,7 @@ if(util_is_POST()) {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This Agreement and its rights and interests hereunder may be assignable by Employer
         without the Employee’s consent, but Employee shall not assign this Agreement or its rights and
         interests hereunder, without the prior written consent of the Employer.
-        termination.
+
 
     </div>
 

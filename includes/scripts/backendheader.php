@@ -1,5 +1,5 @@
 <?php
-
+global $AI;
 ?>
 
 <div class="container-fluid menu_block1">
